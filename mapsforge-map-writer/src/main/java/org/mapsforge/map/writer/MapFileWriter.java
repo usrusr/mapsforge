@@ -53,6 +53,7 @@ import org.mapsforge.map.writer.util.PolyLabel;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -822,10 +823,10 @@ public final class MapFileWriter {
                                     TileBasedDataProcessor dataProcessor, LoadingCache<TDWay, Geometry> jtsGeometryCache,
                                     int zoomIntervalIndex, ByteBuffer tileBuffer, ByteBuffer poiDataBuffer, ByteBuffer wayDataBuffer,
                                     ByteBuffer wayBuffer) {
-        tileBuffer.clear();
-        poiDataBuffer.clear();
-        wayDataBuffer.clear();
-        wayBuffer.clear();
+        ((Buffer)tileBuffer).clear();
+        ((Buffer)poiDataBuffer).clear();
+        ((Buffer)wayDataBuffer).clear();
+        ((Buffer)wayBuffer).clear();
 
         final TileData currentTile = dataProcessor.getTile(zoomIntervalIndex, tileCoordinate.getX(),
                 tileCoordinate.getY());
@@ -889,7 +890,7 @@ public final class MapFileWriter {
                                 continue;
                             }
                             if (wpr != null) {
-                                wayBuffer.clear();
+                                ((Buffer)wayBuffer).clear();
                                 // increment count of ways on this zoom level
                                 entitiesPerZoomLevel[indexEntitiesPerZoomLevelTable][1]++;
                                 if (configuration.isDebugStrings()) {
@@ -1028,7 +1029,7 @@ public final class MapFileWriter {
         // if necessary, allocate new buffer
         if (multipleTilesBuffer.remaining() < MIN_TILE_BUFFER_SIZE) {
             randomAccessFile.write(multipleTilesBuffer.array(), 0, multipleTilesBuffer.position());
-            multipleTilesBuffer.clear();
+            ((Buffer)multipleTilesBuffer).clear();
         }
     }
 

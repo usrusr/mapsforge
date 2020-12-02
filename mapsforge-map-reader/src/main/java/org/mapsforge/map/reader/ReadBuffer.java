@@ -24,6 +24,7 @@ import org.mapsforge.core.util.Parameters;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -97,7 +98,7 @@ public class ReadBuffer {
 
         // reset the buffer position and read the data into the buffer
         this.bufferPosition = 0;
-        this.bufferWrapper.clear();
+        ((Buffer)this.bufferWrapper).clear();
 
         return this.inputChannel.read(this.bufferWrapper) == length;
     }
@@ -130,7 +131,7 @@ public class ReadBuffer {
 
         // reset the buffer position and read the data into the buffer
         this.bufferPosition = 0;
-        this.bufferWrapper.clear();
+        ((Buffer)this.bufferWrapper).clear();
 
         synchronized (this.inputChannel) {
             this.inputChannel.position(offset);
